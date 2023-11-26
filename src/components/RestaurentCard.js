@@ -16,7 +16,17 @@ const RestaurentCard = (props) => {
         <h4>
           {avgRating} stars • {sla.slaString}
         </h4>
-        <h4>{cuisines.join(",")}</h4>
+        <h4>
+          {cuisines
+            .map(
+              (item) =>
+                `${item.charAt(0).toUpperCase()}${item.slice(
+                  1,
+                  item.length - 1
+                )}`
+            )
+            .join(",")}
+        </h4>
       </div>
     </div>
   );
