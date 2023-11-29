@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  color: white;
 }
 .header {
   display: flex;
@@ -33,6 +34,7 @@ body {
   background-color: whitesmoke;
   border-radius: 10px;
   margin: 5px 10px;
+  height: 490px;
 }
 
 .res-card:hover {
@@ -41,6 +43,7 @@ body {
 
 .res-detail {
   padding: 5px;
+  color: black;
 }
 
 .res-container {
@@ -96,4 +99,82 @@ body {
 .search-btn:hover {
   color: white;
   background-color: rgb(231, 24, 24);
+}
+
+.menu {
+  margin: auto;
+  width: 1000px;
+}
+
+.menu-res-detail {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
+
+.res-rating {
+  border: 1px solid white;
+  height: 100px;
+  width: 86px;
+  padding: 5px;
+  margin: 5px 10px;
+}
+
+.res-rating > hr {
+  width: 80px;
+}
+
+.res-rating > p {
+  text-align: center;
+}
+
+.res-delivery-info {
+  display: flex;
+}
+
+.res-delivery-info > h5 {
+  margin: 10px;
+}
+
+.toggle-btn-container {
+  display: flex;
+}
+
+.list-container {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid white;
+  box-shadow: 5px 5px 5px white;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.food-img img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+.food-img button {
+  width: 100px;
+  border-radius: 15px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+  font-size: large;
+  font-weight: bolder;
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
+.food-img button:hover {
+  background-color: white;
+  color: black;
+}
+
+.food-info {
+  width: 500px;
+  margin: 0;
 }

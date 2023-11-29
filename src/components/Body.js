@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RestaurentCard from "./RestaurentCard";
 
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [restaurentList, setRestaurentist] = useState([]);
@@ -18,23 +19,24 @@ const Body = () => {
 
   const fetchData = async () => {
     const res = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
 
     const data = await res.json();
 
     const restaurentList =
-      data.data.cards[5].card.card.gridElements.infoWithStyle.restaurants;
+      data?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants;
     setRestaurentist(restaurentList);
     setFilteredRestaurent(restaurentList);
   };
 
   const handleSearch = () => {
-    let filteredList = restaurentList.filter((res) => {
+    let filteredList = restaurentList?.filter((res) => {
       return res.info.name.toLowerCase().includes(searchText.toLowerCase());
     });
 
-    const cuisine = restaurentList.map((item) => {
+    const cuisine = restaurentList?.map((item) => {
       for (let i = 0; i < item.info.cuisines.length; i++) {
         item.info.cuisines[i] = item.info.cuisines[i].toLowerCase();
       }
@@ -43,14 +45,16 @@ const Body = () => {
 
     setRestaurentist(cuisine);
 
-    const cuisineFilter = restaurentList.filter((res) => {
+    const cuisineFilter = restaurentList?.filter((res) => {
       return res.info.cuisines.includes(searchText);
     });
+    console.log(cuisineFilter);
     filteredList = [...filteredList, ...cuisineFilter];
 
     console.log(filteredList);
 
     setFilteredRestaurent(filteredList);
+    setSearchText("");
   };
 
   useEffect(() => {
@@ -76,11 +80,17 @@ const Body = () => {
           Top rated 4+
         </button>
       </div>
-      {restaurentList.length !== 0 ? (
+      {filteredRestaurent?.length !== 0 ? (
         <div className="res-container">
           {filteredRestaurent?.map((restaurent) => {
             return (
-              <RestaurentCard resData={restaurent} key={restaurent.info.id} />
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/restaurents/${restaurent.info.id}`}
+                key={restaurent.info.id}
+              >
+                <RestaurentCard resData={restaurent} />
+              </Link>
             );
           })}
         </div>
