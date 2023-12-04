@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   background-color: black;
   color: white;
@@ -80,6 +84,7 @@ body {
 
 .filter-btn {
   margin-left: 10px;
+  border-radius: 10px;
 }
 
 .search-box {
@@ -91,7 +96,7 @@ body {
 .search-btn {
   padding: 15px;
 
-  border-radius: 20px;
+  border-radius: 10px;
   text-transform: capitalize;
   cursor: pointer;
 }
@@ -114,6 +119,7 @@ body {
 
 .res-rating {
   border: 1px solid white;
+  border-radius: 20px;
   height: 100px;
   width: 86px;
   padding: 5px;
@@ -144,6 +150,7 @@ body {
   display: flex;
   justify-content: space-around;
   border: 1px solid white;
+  border-radius: 10px;
   box-shadow: 5px 5px 5px white;
   padding: 10px;
   margin-top: 20px;
@@ -177,4 +184,45 @@ body {
 .food-info {
   width: 500px;
   margin: 0;
+}
+
+.sort-btn {
+  padding: 15px;
+  margin-left: 10px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+/* .modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.react-responsive-modal-modal {
+  color: black;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: -2rem 2rem 2rem rgba(black, 0.2);
+}
+
+.form-control {
+  font-family: system-ui, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+.react-responsive-modal-closeButton {
+  cursor: pointer;
+  background-color: #0000;
+  border: none;
+  padding: 0;
+  display: flex;
+  position: absolute;
+  top: -1px;
+  right: 0px;
 }

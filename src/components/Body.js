@@ -4,10 +4,17 @@ import RestaurentCard from "./RestaurentCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+
 const Body = () => {
   const [restaurentList, setRestaurentist] = useState([]);
   const [filteredRestaurent, setFilteredRestaurent] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
 
   const getTopRatedRestaurent = () => {
     const list = filteredRestaurent.filter((rest) => {
@@ -19,10 +26,12 @@ const Body = () => {
 
   const fetchData = async () => {
     const res = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329"
     );
 
     const data = await res.json();
+
+    console.log(data);
 
     const restaurentList =
       data?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
@@ -48,10 +57,10 @@ const Body = () => {
     const cuisineFilter = restaurentList?.filter((res) => {
       return res.info.cuisines.includes(searchText);
     });
-    console.log(cuisineFilter);
+    // console.log(cuisineFilter);
     filteredList = [...filteredList, ...cuisineFilter];
 
-    console.log(filteredList);
+    // console.log(filteredList);
 
     setFilteredRestaurent(filteredList);
     setSearchText("");
@@ -76,10 +85,33 @@ const Body = () => {
             search
           </button>
         </div>
+
         <button className="filter-btn" onClick={getTopRatedRestaurent}>
           Top rated 4+
         </button>
+        <button className="sort-btn" onClick={onOpenModal}>
+          Sort By
+        </button>
       </div>
+      <Modal open={open} onClose={onCloseModal} center classNames="modal">
+        <label class="form-control">
+          <input type="radio" name="radio" />
+          Radio
+        </label>
+        <label class="form-control">
+          <input type="radio" name="radio" />
+          Radio
+        </label>
+        <label class="form-control">
+          <input type="radio" name="radio" />
+          Radio
+        </label>
+        <label class="form-control">
+          <input type="radio" name="radio" />
+          Radio
+        </label>
+      </Modal>
+
       {filteredRestaurent?.length !== 0 ? (
         <div className="res-container">
           {filteredRestaurent?.map((restaurent) => {
