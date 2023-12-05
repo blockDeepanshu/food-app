@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
+import { RES_URL } from "../utils/constants";
 
 const Body = () => {
   const [restaurentList, setRestaurentist] = useState([]);
@@ -25,9 +26,7 @@ const Body = () => {
   };
 
   const fetchData = async () => {
-    const res = await fetch(
-      "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.969539&lng=72.819329"
-    );
+    const res = await fetch(RES_URL);
 
     const data = await res.json();
 
@@ -54,13 +53,13 @@ const Body = () => {
 
     setRestaurentist(cuisine);
 
+    console.log(restaurentList);
+
     const cuisineFilter = restaurentList?.filter((res) => {
       return res.info.cuisines.includes(searchText);
     });
-    // console.log(cuisineFilter);
+    console.log(cuisineFilter);
     filteredList = [...filteredList, ...cuisineFilter];
-
-    // console.log(filteredList);
 
     setFilteredRestaurent(filteredList);
     setSearchText("");
@@ -71,29 +70,38 @@ const Body = () => {
   }, []);
 
   return (
-    <div className="body">
-      <div className="filter">
-        <div className="search">
+    <div>
+      <div className="flex justify-center">
+        <div className="m-4">
           <input
             type="text"
-            className="search-box"
+            className="p-4 w-96 border-2 border-red-500 rounded-full"
             placeholder="Search for Restaurents and food"
             onChange={(e) => setSearchText(e.target.value)}
             value={searchText}
           />
-          <button className="search-btn" onClick={handleSearch}>
-            search
+          <button
+            className="mx-4 bg-red-500 text-white rounded-full p-4"
+            onClick={handleSearch}
+          >
+            Search
           </button>
         </div>
 
-        <button className="filter-btn" onClick={getTopRatedRestaurent}>
+        <button
+          className="m-4 bg-red-500 text-white rounded-2xl p-4 box-border h-18"
+          onClick={getTopRatedRestaurent}
+        >
           Top rated 4+
         </button>
-        <button className="sort-btn" onClick={onOpenModal}>
+        <button
+          className="m-4 bg-red-500 text-white rounded-2xl p-4 box-border h-18"
+          onClick={onOpenModal}
+        >
           Sort By
         </button>
       </div>
-      <Modal open={open} onClose={onCloseModal} center classNames="modal">
+      <Modal open={open} onClose={onCloseModal} center>
         <label class="form-control">
           <input type="radio" name="radio" />
           Radio
@@ -113,7 +121,7 @@ const Body = () => {
       </Modal>
 
       {filteredRestaurent?.length !== 0 ? (
-        <div className="res-container">
+        <div className="flex flex-wrap justify-center">
           {filteredRestaurent?.map((restaurent) => {
             return (
               <Link
