@@ -16,6 +16,8 @@ export const useRestaurentMenu = (resId) => {
     const menuList =
       data?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
 
+    console.log("menulist", menuList);
+
     const filteredMenuList = menuList.filter((item, index) => {
       return index > 0 && index < menuList.length - 2;
     });

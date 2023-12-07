@@ -8,15 +8,19 @@ import Error from "./components/Error";
 // import About from "./components/About";
 import Contact from "./components/Contact";
 import RestaurentMenu from "./components/RestaurentMenu";
+import { Provider } from "react-redux";
+import appStrore from "./utils/store/appStore";
 
 const About = lazy(() => import("./components/About"));
 
 const AppLayout = () => {
   return (
-    <div className="app">
-      <Header />
-      <Outlet />
-    </div>
+    <Provider store={appStrore}>
+      <div className="app">
+        <Header />
+        <Outlet />
+      </div>
+    </Provider>
   );
 };
 

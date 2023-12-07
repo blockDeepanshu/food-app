@@ -2,9 +2,14 @@ import { CDN_URL } from "../utils/constants";
 
 const RestaurentCard = (props) => {
   const { resData } = props;
-  const { name, avgRating, cuisines, sla, cloudinaryImageId } = resData.info;
+
+  const { name, avgRating, cuisines, sla, cloudinaryImageId, isOpen } =
+    resData.info;
+  const closeClass = !isOpen ? "bg-black opacity-60" : "";
   return (
-    <div className="w-80 m-8 h-max border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500">
+    <div
+      className={`w-80 m-8 h-max border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500 ${closeClass}`}
+    >
       <img
         className="w-full h-80 rounded-2xl"
         alt="res-logo"
@@ -30,6 +35,19 @@ const RestaurentCard = (props) => {
       </div>
     </div>
   );
+};
+
+export const closedRestaurentComponent = (RestaurentCard) => {
+  return (props) => {
+    return (
+      <div>
+        <h1 className="bg-black text-white absolute my-10 mx-10 p-1 rounded-lg z-40">
+          Closed
+        </h1>
+        <RestaurentCard {...props} />;
+      </div>
+    );
+  };
 };
 
 export default RestaurentCard;

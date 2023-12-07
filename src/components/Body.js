@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RestaurentCard from "./RestaurentCard";
+import RestaurentCard, { closedRestaurentComponent } from "./RestaurentCard";
 
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -16,6 +16,8 @@ const Body = () => {
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  const RestaurentCloseCard = closedRestaurentComponent(RestaurentCard);
 
   const getTopRatedRestaurent = () => {
     const list = filteredRestaurent.filter((rest) => {
@@ -123,7 +125,7 @@ const Body = () => {
       {filteredRestaurent?.length !== 0 ? (
         <div className="flex flex-wrap justify-center">
           {filteredRestaurent?.map((restaurent) => {
-            return (
+            return restaurent.info.isOpen ? (
               <Link
                 style={{ textDecoration: "none" }}
                 to={`/restaurents/${restaurent.info.id}`}
@@ -131,6 +133,11 @@ const Body = () => {
               >
                 <RestaurentCard resData={restaurent} />
               </Link>
+            ) : (
+              <RestaurentCloseCard
+                resData={restaurent}
+                key={restaurent.info.id}
+              />
             );
           })}
         </div>

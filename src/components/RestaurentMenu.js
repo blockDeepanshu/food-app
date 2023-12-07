@@ -12,6 +12,7 @@ const RestaurentMenu = () => {
   const { resId } = useParams();
 
   const { resDetails, resMenu } = useRestaurentMenu(resId);
+  const [showIndex, setShowIndex] = useState(0);
 
   return resDetails === null ? (
     <Shimmer />
@@ -51,8 +52,15 @@ const RestaurentMenu = () => {
       {resMenu.length === 0 ? (
         <h1>Loading....</h1>
       ) : (
-        resMenu.map((item) => {
-          return <MenuList key={item.card.card.title} menu={item.card.card} />;
+        resMenu.map((item, index) => {
+          return (
+            <MenuList
+              key={item.card.card.title}
+              menu={item.card.card}
+              open={index === showIndex ? true : false}
+              setIndex={() => setShowIndex(index)}
+            />
+          );
         })
       )}
     </div>

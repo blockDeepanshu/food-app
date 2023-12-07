@@ -8,7 +8,7 @@ const Header = () => {
   const online = useNetworkStatus();
 
   return (
-    <div className="flex justify-between bg-red-500 my-4 mx-auto w-9/12 rounded-2xl shadow-red-500 shadow-lg text-yellow-50 font-medium ">
+    <div className="flex justify-between bg-red-500 my-4 mx-auto w-9/12 rounded-2xl shadow-red-500 shadow-lg text-yellow-50 font-medium sticky top-0 left-48">
       <div className="w-64 p-4">
         <Link to="/">
           {" "}
