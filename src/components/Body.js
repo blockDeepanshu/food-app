@@ -4,18 +4,14 @@ import RestaurentCard, { closedRestaurentComponent } from "./RestaurentCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 
-import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
-import { RES_URL } from "../utils/constants";
+import { useSelector } from "react-redux";
 
 const Body = () => {
   const [restaurentList, setRestaurentist] = useState([]);
   const [filteredRestaurent, setFilteredRestaurent] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [open, setOpen] = useState(false);
 
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
+  const coordinates = useSelector((store) => store.location.coordinates);
 
   const RestaurentCloseCard = closedRestaurentComponent(RestaurentCard);
 
@@ -28,7 +24,9 @@ const Body = () => {
   };
 
   const fetchData = async () => {
-    const res = await fetch(RES_URL);
+    const res = await fetch(
+      `https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=${coordinates.lat}&lng=${coordinates.lng}`
+    );
 
     const data = await res.json();
 
@@ -69,7 +67,7 @@ const Body = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [coordinates]);
 
   return (
     <div>
@@ -96,31 +94,7 @@ const Body = () => {
         >
           Top rated 4+
         </button>
-        <button
-          className="m-4 bg-red-500 text-white rounded-2xl p-4 box-border h-18"
-          onClick={onOpenModal}
-        >
-          Sort By
-        </button>
       </div>
-      <Modal open={open} onClose={onCloseModal} center>
-        <label class="form-control">
-          <input type="radio" name="radio" />
-          Radio
-        </label>
-        <label class="form-control">
-          <input type="radio" name="radio" />
-          Radio
-        </label>
-        <label class="form-control">
-          <input type="radio" name="radio" />
-          Radio
-        </label>
-        <label class="form-control">
-          <input type="radio" name="radio" />
-          Radio
-        </label>
-      </Modal>
 
       {filteredRestaurent?.length !== 0 ? (
         <div className="flex flex-wrap justify-center">
@@ -130,6 +104,7 @@ const Body = () => {
                 style={{ textDecoration: "none" }}
                 to={`/restaurents/${restaurent.info.id}`}
                 key={restaurent.info.id}
+                className="p-4"
               >
                 <RestaurentCard resData={restaurent} />
               </Link>

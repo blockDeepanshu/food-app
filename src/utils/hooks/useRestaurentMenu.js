@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MENU_URL } from "../constants";
+import { useSelector } from "react-redux";
 
 export const useRestaurentMenu = (resId) => {
   const [resDetails, setResDeatils] = useState(null);
@@ -9,16 +10,18 @@ export const useRestaurentMenu = (resId) => {
     fetchMenu();
   }, []);
 
+  const coordinates = useSelector((store) => store.location.coordinates);
+
   const fetchMenu = async () => {
-    const res = await fetch(MENU_URL + resId);
+    const res =
+      await fetch(`https://corsproxy.io/?https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${coordinates.lat}&lng=${coordinates.lng}&restaurantId=${resId};
+    `);
     const data = await res.json();
 
     const menuList =
       data?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
 
-    console.log("menulist", menuList);
-
-    const filteredMenuList = menuList.filter((item, index) => {
+    const filteredMenuList = menuList?.filter((item, index) => {
       return index > 0 && index < menuList.length - 2;
     });
 

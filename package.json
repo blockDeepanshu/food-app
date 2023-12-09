@@ -9,10 +9,24 @@
   "author": "Deepanshu Chauhan",
   "license": "ISC",
   "devDependencies": {
+    "assert": "^2.1.0",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
     "parcel": "^2.10.3",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.4.32",
     "process": "^0.11.10",
-    "tailwindcss": "^3.3.5"
+    "punycode": "^1.4.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "tailwindcss": "^3.3.5",
+    "url": "^0.11.3",
+    "util": "^0.12.5",
+    "vm-browserify": "^1.1.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -23,8 +37,11 @@
     "@reduxjs/toolkit": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-geocode": "^1.0.0-alpha.1",
+    "react-geolocated": "^4.1.2",
     "react-redux": "^9.0.2",
-    "react-responsive-modal": "^6.4.2",
-    "react-router-dom": "^6.20.0"
+    "react-router-dom": "^6.20.0",
+    "react-toastify": "^9.1.3",
+    "remove": "^0.1.5"
   }
 }

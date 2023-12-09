@@ -8,14 +8,14 @@ const RestaurentCard = (props) => {
   const closeClass = !isOpen ? "bg-black opacity-60" : "";
   return (
     <div
-      className={`w-80 m-8 h-max border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500 ${closeClass}`}
+      className={`w-80 m-4  h-full border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500 ${closeClass}`}
     >
       <img
         className="w-full h-80 rounded-2xl"
         alt="res-logo"
         src={CDN_URL + cloudinaryImageId}
       />
-      <div className="p-4">
+      <div className="p-4 w-full">
         <h3>{name}</h3>
 
         <h4>

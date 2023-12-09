@@ -13,6 +13,7 @@ const RestaurentMenu = () => {
 
   const { resDetails, resMenu } = useRestaurentMenu(resId);
   const [showIndex, setShowIndex] = useState(0);
+  const [isVeg, setIsVeg] = useState(false);
 
   return resDetails === null ? (
     <Shimmer />
@@ -20,45 +21,50 @@ const RestaurentMenu = () => {
     <div className="m-auto w-5/6">
       <div className="flex justify-between">
         <div className="font-extrabold">
-          <h3>{resDetails.name}</h3>
-          <p>{resDetails.cuisines.join(",")}</p>
+          <h3>{resDetails?.name}</h3>
+          <p>{resDetails?.cuisines.join(",")}</p>
           <br />
-          <p>{resDetails.feeDetails.message}</p>
+          <p>{resDetails?.feeDetails.message}</p>
         </div>
         <div className="h-24 w-20 border-2 border-red-500 my-2 mx-4 p-2 rounded-lg shadow-red-500 shadow-lg text-red-500">
           <p>
-            {resDetails.avgRating} <FontAwesomeIcon icon={faStar} />
+            {resDetails?.avgRating} <FontAwesomeIcon icon={faStar} />
           </p>
           <hr />
-          <p>{resDetails.totalRatingsString}</p>
+          <p>{resDetails?.totalRatingsString}</p>
         </div>
       </div>
       <hr />
       <div className="m-4">
         <h5>
-          <FontAwesomeIcon icon={faClock} /> {resDetails.sla.slaString}
+          <FontAwesomeIcon icon={faClock} /> {resDetails?.sla?.slaString}
         </h5>
         <h5>
-          <FontAwesomeIcon icon={faRupee} /> {resDetails.costForTwoMessage}
+          <FontAwesomeIcon icon={faRupee} /> {resDetails?.costForTwoMessage}
         </h5>
       </div>
       <hr />
       <div className="flex justify-start m-4">
         <h4>Veg Only</h4>
 
-        <input type="checkbox" className="mx-2" />
+        <input
+          onChange={(e) => setIsVeg(e.target.checked)}
+          type="checkbox"
+          className="mx-2"
+        />
       </div>
 
-      {resMenu.length === 0 ? (
+      {resMenu?.length === 0 ? (
         <h1>Loading....</h1>
       ) : (
-        resMenu.map((item, index) => {
+        resMenu?.map((item, index) => {
           return (
             <MenuList
               key={item.card.card.title}
               menu={item.card.card}
               open={index === showIndex ? true : false}
               setIndex={() => setShowIndex(index)}
+              isVeg={isVeg}
             />
           );
         })

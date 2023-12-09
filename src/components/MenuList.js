@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CDN_URL } from "../utils/constants";
+
 import { useMenuCardList } from "../utils/hooks/useMenuCardList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,10 +7,12 @@ import {
   faArrowCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const MenuList = ({ menu, open, setIndex }) => {
+import MenuItem from "./MenuItem";
+
+const MenuList = ({ menu, open, setIndex, isVeg }) => {
   const { title } = menu;
 
-  const cardInfoList = useMenuCardList(menu);
+  const cardInfoList = useMenuCardList(menu, isVeg);
 
   return (
     <React.Fragment>
@@ -28,29 +30,7 @@ const MenuList = ({ menu, open, setIndex }) => {
       </div>
       {open &&
         cardInfoList?.map((item) => {
-          return (
-            <div
-              className="flex justify-between border-2 border-red-500 p-4 m-4 rounded-2xl"
-              key={item.id}
-            >
-              <div className="w-96">
-                <h1 className="font-extrabold">{item.name}</h1>
-                <h5>Rs.{item.price / 100}</h5>
-                <br />
-                <p className="font-bold">{item.description}</p>
-              </div>
-              <div>
-                <img
-                  className="w-48 mx-2 border-2 border-red-500 rounded-3xl"
-                  alt={item.name}
-                  src={CDN_URL + item.imageId}
-                />
-                <button className="border-2 border-red-500 text-red-500 p-2 rounded-full mx-4 my-1 relative bottom-15 left-12 hover:bg-red-500 hover:text-white">
-                  Add +
-                </button>
-              </div>
-            </div>
-          );
+          return <MenuItem item={item} key={item.id} isCart={false} />;
         })}
     </React.Fragment>
   );
