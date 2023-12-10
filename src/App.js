@@ -6,11 +6,13 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import Error from "./components/Error";
 
-import Contact from "./components/Contact";
 import RestaurentMenu from "./components/RestaurentMenu";
 import { Provider } from "react-redux";
 import appStrore from "./utils/store/appStore";
-import Cart from "./components/Cart";
+import Shimmer from "./components/Shimmer";
+// import Cart from "./components/Cart";
+
+const Cart = lazy(() => import("./components/Cart"));
 
 const AppLayout = () => {
   return (
@@ -32,17 +34,18 @@ const appRoutes = createBrowserRouter([
         path: "/",
         element: <Body />,
       },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
+
       {
         path: "/restaurents/:resId",
         element: <RestaurentMenu />,
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <Suspense fallback={<Shimmer />}>
+            <Cart />
+          </Suspense>
+        ),
       },
     ],
     errorElement: <Error />,
