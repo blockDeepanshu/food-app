@@ -1,4 +1,4 @@
-import { CDN_URL } from "../utils/constants";
+import { CDN_URL } from "../../utils/constants";
 
 const RestaurentCard = (props) => {
   const { resData } = props;
@@ -6,22 +6,22 @@ const RestaurentCard = (props) => {
   const { name, avgRating, cuisines, sla, cloudinaryImageId, isOpen } =
     resData.info;
   const closeClass = !isOpen ? "bg-black opacity-60" : "";
+
   return (
     <div
-      className={`w-80 m-4  h-full border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500 ${closeClass}`}
+      className={`w-full md:w-80 m-4 h-full border-2 border-red-500 rounded-2xl shadow-lg shadow-red-500 ${closeClass}`}
     >
       <img
-        className="w-full h-80 rounded-2xl"
+        className="w-full h-40 md:h-80 object-cover rounded-t-2xl"
         alt="res-logo"
         src={CDN_URL + cloudinaryImageId}
       />
-      <div className="p-4 w-full">
-        <h3>{name}</h3>
-
-        <h4>
+      <div className="p-4">
+        <h3 className="text-lg md:text-xl font-semibold">{name}</h3>
+        <h4 className="text-sm md:text-base">
           {avgRating} stars • {sla.slaString}
         </h4>
-        <h4>
+        <h4 className="text-sm md:text-base">
           {cuisines
             .map(
               (item) =>
@@ -41,10 +41,10 @@ export const closedRestaurentComponent = (RestaurentCard) => {
   return (props) => {
     return (
       <div>
-        <h1 className="bg-black text-white absolute my-10 mx-10 p-1 rounded-lg z-40">
+        <h1 className="bg-black text-white absolute my-2 md:my-10 mx-2 md:mx-10 p-1 rounded-lg z-40 text-xs md:text-base">
           Closed
         </h1>
-        <RestaurentCard {...props} />;
+        <RestaurentCard {...props} />
       </div>
     );
   };

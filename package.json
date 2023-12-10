@@ -2,9 +2,11 @@
   "name": "food-delivery-app",
   "version": "1.0.0",
   "description": "A food delivery app where you can order delicious food.",
-  "main": "index.js",
   "scripts": {
-    "start": "npx parcel index.html"
+    "start": "parcel index.html",
+    "build:parcel": "parcel build ./index.html --public-url ./ --no-source-maps",
+    "build": "npm run clean && npm run build:parcel",
+    "clean": "del  dist"
   },
   "author": "Deepanshu Chauhan",
   "license": "ISC",
@@ -37,6 +39,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.11",
     "react-geocode": "^1.0.0-alpha.1",
     "react-geolocated": "^4.1.2",
     "react-redux": "^9.0.2",

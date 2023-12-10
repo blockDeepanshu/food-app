@@ -1,15 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import MenuItem from "./MenuItem";
+import MenuItem from "./Menu/MenuItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { clearCart } from "../utils/store/slice/cartSlice";
+import { clearCart } from "../../utils/store/slice/cartSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Cart() {
   const cartItems = useSelector((store) => store.cart.items);
-
   const dispatch = useDispatch();
 
   const handleClearItems = () => {
@@ -24,7 +23,7 @@ function Cart() {
   };
 
   return (
-    <div className="w-6/12 mx-auto ">
+    <div className="container mx-auto p-4">
       <h1 className="text-center font-bold m-2 p-2 text-2xl">
         Cart
         {cartItems.length > 0 && (
@@ -40,9 +39,9 @@ function Cart() {
       <div>
         {cartItems.length > 0 ? (
           cartItems &&
-          cartItems.map((item) => {
-            return <MenuItem item={item} isCart={true} key={item.id} />;
-          })
+          cartItems.map((item) => (
+            <MenuItem item={item} isCart={true} key={item.id} />
+          ))
         ) : (
           <h1 className="text-center font-bold m-2 p-2 text-2xl">
             Cart is Empty ☹
@@ -53,7 +52,7 @@ function Cart() {
       {cartItems.length > 0 && (
         <button
           onClick={notify}
-          className=" flex justify-center items-center m-auto p-2  bg-black text-white rounded-lg "
+          className="flex justify-center items-center m-auto p-2 bg-black text-white rounded-lg mt-4"
         >
           Place Order
         </button>

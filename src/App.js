@@ -2,25 +2,24 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import Header from "./components/Header";
+import Header from "./components/navbar/Header";
 import Body from "./components/Body";
-import Error from "./components/Error";
+import Error from "./components/errors/Error";
 
-import RestaurentMenu from "./components/RestaurentMenu";
+import RestaurentMenu from "./components/restaurent/RestaurentMenu";
 import { Provider } from "react-redux";
 import appStrore from "./utils/store/appStore";
 import Shimmer from "./components/Shimmer";
-// import Cart from "./components/Cart";
+import { ErrorBoundary } from "react-error-boundary";
+import RestaurentFetchingError from "./components/errors/RestaurentFetchingError";
 
-const Cart = lazy(() => import("./components/Cart"));
+const Cart = lazy(() => import("./components/restaurent/Cart"));
 
 const AppLayout = () => {
   return (
     <Provider store={appStrore}>
-      <div className="app">
-        <Header />
-        <Outlet />
-      </div>
+      <Header />
+      <Outlet />
     </Provider>
   );
 };
@@ -32,12 +31,19 @@ const appRoutes = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: (
+          <ErrorBoundary FallbackComponent={RestaurentFetchingError}>
+            <Body />
+          </ErrorBoundary>
+        ),
       },
-
       {
-        path: "/restaurents/:resId",
-        element: <RestaurentMenu />,
+        path: "/restaurants/:resId",
+        element: (
+          <ErrorBoundary FallbackComponent={RestaurentFetchingError}>
+            <RestaurentMenu />
+          </ErrorBoundary>
+        ),
       },
       {
         path: "/cart",

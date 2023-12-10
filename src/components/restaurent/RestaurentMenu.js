@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Shimmer from "./Shimmer";
+import React, { useState } from "react";
+import Shimmer from "../Shimmer";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faRupee } from "@fortawesome/free-solid-svg-icons";
-import MenuList from "./MenuList";
+import MenuList from "./Menu/MenuList";
 import { useParams } from "react-router-dom";
-import { useRestaurentMenu } from "../utils/hooks/useRestaurentMenu";
+import { useRestaurentMenu } from "../../utils/hooks/useRestaurentMenu";
 
 const RestaurentMenu = () => {
   const { resId } = useParams();
-
   const { resDetails, resMenu } = useRestaurentMenu(resId);
   const [showIndex, setShowIndex] = useState(0);
   const [isVeg, setIsVeg] = useState(false);
 
+  console.log(resMenu);
+
   return resDetails === null ? (
     <Shimmer />
   ) : (
-    <div className="m-auto w-5/6">
-      <div className="flex justify-between">
-        <div className="font-extrabold">
+    <div className="container mx-auto p-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <div className="font-extrabold mb-4 md:mb-0 md:mr-4">
           <h3>{resDetails?.name}</h3>
           <p>{resDetails?.cuisines.join(",")}</p>
           <br />
@@ -34,8 +35,8 @@ const RestaurentMenu = () => {
           <p>{resDetails?.totalRatingsString}</p>
         </div>
       </div>
-      <hr />
-      <div className="m-4">
+      <hr className="my-4" />
+      <div className="mb-4">
         <h5>
           <FontAwesomeIcon icon={faClock} /> {resDetails?.sla?.slaString}
         </h5>
@@ -43,31 +44,28 @@ const RestaurentMenu = () => {
           <FontAwesomeIcon icon={faRupee} /> {resDetails?.costForTwoMessage}
         </h5>
       </div>
-      <hr />
-      <div className="flex justify-start m-4">
-        <h4>Veg Only</h4>
-
+      <hr className="my-4" />
+      <div className="flex items-center mb-4">
+        <h4 className="mr-2">Veg Only</h4>
         <input
           onChange={(e) => setIsVeg(e.target.checked)}
           type="checkbox"
-          className="mx-2"
+          className="mr-2"
         />
       </div>
 
       {resMenu?.length === 0 ? (
         <h1>Loading....</h1>
       ) : (
-        resMenu?.map((item, index) => {
-          return (
-            <MenuList
-              key={item.card.card.title}
-              menu={item.card.card}
-              open={index === showIndex ? true : false}
-              setIndex={() => setShowIndex(index)}
-              isVeg={isVeg}
-            />
-          );
-        })
+        resMenu?.map((item, index) => (
+          <MenuList
+            key={item.card.card.title}
+            menu={item.card.card}
+            open={index === showIndex ? true : false}
+            setIndex={() => setShowIndex(index)}
+            isVeg={isVeg}
+          />
+        ))
       )}
     </div>
   );

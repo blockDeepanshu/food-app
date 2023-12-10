@@ -1,95 +1,94 @@
 import { useEffect, useState } from "react";
-import RestaurentCard, { closedRestaurentComponent } from "./RestaurentCard";
-
-import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-
+import RestaurentCard, {
+  closedRestaurentComponent,
+} from "./restaurent/RestaurentCard";
+import Shimmer from "./Shimmer";
 import { useSelector } from "react-redux";
+import { useErrorBoundary } from "react-error-boundary";
 
 const Body = () => {
   const [restaurentList, setRestaurentist] = useState([]);
   const [filteredRestaurent, setFilteredRestaurent] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  const { showBoundary } = useErrorBoundary();
+
   const coordinates = useSelector((store) => store.location.coordinates);
 
   const RestaurentCloseCard = closedRestaurentComponent(RestaurentCard);
 
   const getTopRatedRestaurent = () => {
-    const list = filteredRestaurent.filter((rest) => {
-      return rest.info.avgRating > 4;
-    });
-
+    const list = filteredRestaurent.filter((rest) => rest.info.avgRating > 4);
     setFilteredRestaurent(list);
   };
 
   const fetchData = async () => {
-    const res = await fetch(
-      `https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=${coordinates.lat}&lng=${coordinates.lng}`
-    );
+    try {
+      const res = await fetch(
+        `https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=${coordinates.lat}&lng=${coordinates.lng}`
+      );
+      const data = await res.json();
 
-    const data = await res.json();
+      const restaurentList =
+        data?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants;
 
-    console.log(data);
-
-    const restaurentList =
-      data?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants;
-    setRestaurentist(restaurentList);
-    setFilteredRestaurent(restaurentList);
+      throw new Error("some error occured");
+      setRestaurentist(restaurentList);
+      setFilteredRestaurent(restaurentList);
+    } catch (error) {
+      showBoundary(error);
+    }
   };
 
   const handleSearch = () => {
-    let filteredList = restaurentList?.filter((res) => {
-      return res.info.name.toLowerCase().includes(searchText.toLowerCase());
-    });
+    let filteredList = restaurentList?.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     const cuisine = restaurentList?.map((item) => {
-      for (let i = 0; i < item.info.cuisines.length; i++) {
-        item.info.cuisines[i] = item.info.cuisines[i].toLowerCase();
-      }
+      item.info.cuisines = item.info.cuisines.map((cuisine) =>
+        cuisine.toLowerCase()
+      );
       return item;
     });
 
     setRestaurentist(cuisine);
 
-    console.log(restaurentList);
+    const cuisineFilter = restaurentList?.filter((res) =>
+      res.info.cuisines.includes(searchText)
+    );
 
-    const cuisineFilter = restaurentList?.filter((res) => {
-      return res.info.cuisines.includes(searchText);
-    });
-    console.log(cuisineFilter);
     filteredList = [...filteredList, ...cuisineFilter];
-
     setFilteredRestaurent(filteredList);
     setSearchText("");
   };
 
   useEffect(() => {
     fetchData();
-  }, [coordinates]);
+  }, []);
 
   return (
-    <div>
-      <div className="flex justify-center">
-        <div className="m-4">
-          <input
-            type="text"
-            className="p-4 w-96 border-2 border-red-500 rounded-full"
-            placeholder="Search for Restaurents and food"
-            onChange={(e) => setSearchText(e.target.value)}
-            value={searchText}
-          />
-          <button
-            className="mx-4 bg-red-500 text-white rounded-full p-4"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
-        </div>
-
+    <div className="container mx-auto p-4">
+      <div className="mb-4 w-full md:w-2/3 md:mx-auto">
+        <input
+          type="text"
+          className="p-4 w-full border-2 border-red-500 rounded-full"
+          placeholder="Search for Restaurants and food"
+          onChange={(e) => setSearchText(e.target.value)}
+          value={searchText}
+        />
+      </div>
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4">
         <button
-          className="m-4 bg-red-500 text-white rounded-2xl p-4 box-border h-18"
+          className="bg-red-500 text-white rounded-full p-4"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+        <button
+          className="bg-red-500 text-white rounded-2xl p-4 box-border h-18"
           onClick={getTopRatedRestaurent}
         >
           Top rated 4+
@@ -98,23 +97,20 @@ const Body = () => {
 
       {filteredRestaurent?.length !== 0 ? (
         <div className="flex flex-wrap justify-center">
-          {filteredRestaurent?.map((restaurent) => {
-            return restaurent.info.isOpen ? (
-              <Link
-                style={{ textDecoration: "none" }}
-                to={`/restaurents/${restaurent.info.id}`}
-                key={restaurent.info.id}
-                className="p-4"
-              >
+          {filteredRestaurent?.map((restaurent) => (
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/restaurants/${restaurent.info.id}`}
+              key={restaurent.info.id}
+              className="p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4"
+            >
+              {restaurent.info.isOpen ? (
                 <RestaurentCard resData={restaurent} />
-              </Link>
-            ) : (
-              <RestaurentCloseCard
-                resData={restaurent}
-                key={restaurent.info.id}
-              />
-            );
-          })}
+              ) : (
+                <RestaurentCloseCard resData={restaurent} />
+              )}
+            </Link>
+          ))}
         </div>
       ) : (
         <Shimmer />
