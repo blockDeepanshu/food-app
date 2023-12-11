@@ -1,6 +1,6 @@
 # Foodie - Food Ordering App
 
-Foodie is a web application for ordering food online. It is built using React,Parcel,Redux Toolkit, and Tailwind CSS.
+Foodie is a web application for ordering food online. It is built using React,Parcel,Redux Toolkit, and Tailwind CSS.Restaurent data is coming live from Swiggy APIs.
 
 ## Table of Contents
 
@@ -75,3 +75,4 @@ npm start
 - React JS
 - Redux Toolkit
 - Tailwind CSS
+- Swiggy API
