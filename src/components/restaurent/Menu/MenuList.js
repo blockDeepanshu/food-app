@@ -28,8 +28,8 @@ const MenuList = ({ menu, open, setIndex, isVeg }) => {
         </span>
       </div>
       {open &&
-        cardInfoList?.map((item) => (
-          <MenuItem item={item} key={item.id} isCart={false} />
+        cardInfoList?.map((item, index) => (
+          <MenuItem item={item} key={`${item.id}-${index}`} isCart={false} />
         ))}
     </React.Fragment>
   );

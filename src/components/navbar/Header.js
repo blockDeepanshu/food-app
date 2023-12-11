@@ -13,7 +13,7 @@ const Header = () => {
   const { address } = useLocation();
 
   return (
-    <div className="flex flex-col md:flex-row justify-between bg-red-500 w-full shadow-red-500 shadow-lg text-yellow-50 font-medium sticky z-40 top-0 left-0">
+    <div className="flex flex-col md:flex-row justify-between bg-red-500 w-full shadow-red-500 shadow-lg text-yellow-50 font-medium">
       <div className="w-full md:w-64 p-4">
         <Link to="/">
           <img className="w-full md:ml-0" src={LOGO_URL} alt="Logo" />

@@ -38,7 +38,7 @@ const appRoutes = createBrowserRouter([
         ),
       },
       {
-        path: "/restaurants/:resId",
+        path: "/restaurents/:resId",
         element: (
           <ErrorBoundary FallbackComponent={RestaurentFetchingError}>
             <RestaurentMenu />

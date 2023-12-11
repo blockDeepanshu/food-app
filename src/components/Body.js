@@ -30,11 +30,13 @@ const Body = () => {
       );
       const data = await res.json();
 
-      const restaurentList =
-        data?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants;
+      const cardList = data?.data?.cards?.filter((item) => {
+        return item.card.card.id === "restaurant_grid_listing";
+      });
 
-      throw new Error("some error occured");
+      const restaurentList =
+        cardList[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+
       setRestaurentist(restaurentList);
       setFilteredRestaurent(restaurentList);
     } catch (error) {
@@ -69,6 +71,8 @@ const Body = () => {
     fetchData();
   }, []);
 
+  // console.log("filtered", filteredRestaurent);
+
   return (
     <div className="container mx-auto p-4">
       <div className="mb-4 w-full md:w-2/3 md:mx-auto">
@@ -100,9 +104,9 @@ const Body = () => {
           {filteredRestaurent?.map((restaurent) => (
             <Link
               style={{ textDecoration: "none" }}
-              to={`/restaurants/${restaurent.info.id}`}
+              to={`/restaurents/${restaurent.info.id}`}
               key={restaurent.info.id}
-              className="p-4 w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4"
+              className="p-4 w-full  sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4"
             >
               {restaurent.info.isOpen ? (
                 <RestaurentCard resData={restaurent} />

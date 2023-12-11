@@ -14,8 +14,6 @@ const RestaurentMenu = () => {
   const [showIndex, setShowIndex] = useState(0);
   const [isVeg, setIsVeg] = useState(false);
 
-  console.log(resMenu);
-
   return resDetails === null ? (
     <Shimmer />
   ) : (
@@ -59,7 +57,7 @@ const RestaurentMenu = () => {
       ) : (
         resMenu?.map((item, index) => (
           <MenuList
-            key={item.card.card.title}
+            key={`${item.card.card.title}-${index}`}
             menu={item.card.card}
             open={index === showIndex ? true : false}
             setIndex={() => setShowIndex(index)}
